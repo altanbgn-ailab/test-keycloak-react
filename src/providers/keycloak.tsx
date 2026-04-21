@@ -34,9 +34,7 @@ keycloak.onAuthRefreshSuccess = () => {
   }
 }
 
-export const KeycloakContext = createContext<{ keycloak: Keycloak }>({
-  keycloak,
-})
+export const KeycloakContext = createContext<Keycloak>(keycloak)
 
 export function KeycloakProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -60,7 +58,7 @@ export function KeycloakProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <KeycloakContext.Provider value={{ keycloak }}>
+    <KeycloakContext.Provider value={keycloak}>
       {children}
     </KeycloakContext.Provider>
   )

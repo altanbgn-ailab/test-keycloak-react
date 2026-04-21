@@ -9,14 +9,14 @@ export const Route = createFileRoute("/")({
 
 function App() {
   const { t } = useTranslation()
-  const { keycloak } = useKeycloak()
+  const { authenticated, login, logout } = useKeycloak()
 
   return (
     <div className="flex flex-col justify-center items-center h-[80vh] gap-6">
       <p className="text-3xl font-black">
         {t("homePage.title")}
       </p>
-      <p className="text-3xl">{keycloak.authenticated ? "Logged In" : "Not Logged In"}</p>
+      <p className="text-3xl">{authenticated ? "Logged In" : "Not Logged In"}</p>
       <p>
         Edit <code className="rounded py-1 px-2 bg-muted text-muted-foreground">src/routes/index.tsx</code> and save to reload.
       </p>
@@ -48,12 +48,12 @@ function App() {
             Learn UILab
           </a>
         </Button>
-        {keycloak.authenticated ? (
-          <Button onClick={() => keycloak.logout()}>
+        {authenticated ? (
+          <Button onClick={() => logout()}>
             Logout
           </Button>
         ) : (
-          <Button onClick={() => keycloak.login()}>
+          <Button onClick={() => login()}>
             Login
           </Button>
         )}

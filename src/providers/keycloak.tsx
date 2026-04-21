@@ -1,5 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import Keycloak from "keycloak-js"
+import type { KeycloakInitOptions } from "keycloak-js";
+
+const KEYCLOAK_INIT_OPTIONS: KeycloakInitOptions = {
+  onLoad: "check-sso",
+  checkLoginIframe: false,
+}
 
 const keycloak = new Keycloak({
   url: import.meta.env.VITE_KC_URL,
@@ -38,16 +44,11 @@ export function KeycloakProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (keycloak.didInitialize) return
 
-    keycloak.init({
-      onLoad: "check-sso",
-      checkLoginIframe: false,
-    })
+    keycloak.init(KEYCLOAK_INIT_OPTIONS)
       .catch((err) => {
         console.error("Failed to initialize Keycloak:", err)
       })
-      .finally(() => {
-        setIsLoading(false)
-      })
+      .finally(() => setIsLoading(false))
   }, [])
 
   if (isLoading) {
